@@ -1,0 +1,7 @@
+version: "Apple Swift version 4.0.2 (swiftlang-900.0.69.2 clang-900.0.38)"
+options: "0af7b2609a66d2a7df8183025253a6ed"
+build_time: [1509634134, 895166000]
+inputs:
+  "/Users/esharp2/MobileSensing/SwiftHTTPExample/HTTPSwiftExample/ViewController.swift": [1509634131, 0]
+  "/Users/esharp2/MobileSensing/SwiftHTTPExample/HTTPSwiftExample/AppDelegate.swift": [1509584526, 0]
+  "/Users/esharp2/MobileSensing/SwiftHTTPExample/HTTPSwiftExample/RingBuffer.swift": [1509630651, 0]
