@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>application-identifier</key>
-	<string>59272Q867S.SMU-HTTPSwiftExample</string>
+	<string>59272Q867S.tornado-Example</string>
 	<key>com.apple.developer.team-identifier</key>
 	<string>59272Q867S</string>
 	<key>get-task-allow</key>
 	<true/>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>59272Q867S.SMU-HTTPSwiftExample</string>
+		<string>59272Q867S.tornado-Example</string>
 	</array>
 </dict>
 </plist>

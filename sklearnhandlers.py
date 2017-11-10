@@ -62,10 +62,10 @@ class UpdateModelForDatasetId(BaseHandler):
         dsid = self.get_int_arg("dsid",default=0)
 
         # create feature vectors from database
-        f=[];
-        for a in self.db.labeledinstances.find({"dsid":dsid}): 
-            f.append([float(val) for val in a['feature']])
-
+        f = np.array([]);
+        for a in self.db.labeledinstances.find({"dsid":dsid}):
+            f = np.concatenate(([float(val) for val in a['feature']], f))
+        
         # create label vector from database
         l=[];
         for a in self.db.labeledinstances.find({"dsid":dsid}): 
@@ -74,9 +74,11 @@ class UpdateModelForDatasetId(BaseHandler):
         # fit the model to the data
         c1 = KNeighborsClassifier(n_neighbors=1);
         acc = -1;
+        
+        fShape = f.reshape(len(l), -1)
         if l:
-            c1.fit(f,l) # training
-            lstar = c1.predict(f)
+            c1.fit(fShape,l) # training
+            lstar = c1.predict(fShape)
             self.clf[dsid] = c1
             acc = sum(lstar==l)/float(len(l))
             bytes = pickle.dumps(c1)

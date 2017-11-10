@@ -207,27 +207,41 @@ SWIFT_CLASS("_TtC16HTTPSwiftExample10RingBuffer")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-@class UIStepper;
+
+
+@class UIButton;
+@class UIImageView;
+@class UITextField;
 @class UILabel;
-@class UIProgressView;
-@class UISlider;
+@class UIStepper;
+@class UIImagePickerController;
 @class NSBundle;
 @class NSCoder;
 
 SWIFT_CLASS("_TtC16HTTPSwiftExample14ViewController")
-@interface ViewController : UIViewController <NSURLSessionDelegate>
+@interface ViewController : UIViewController <NSURLSessionDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate>
+@property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified takePictureButton;
+@property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified updateButton;
+@property (nonatomic, weak) IBOutlet UIImageView * _Null_unspecified imageView;
+@property (nonatomic, weak) IBOutlet UITextField * _Null_unspecified labelTextField;
+@property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified predButton;
+@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified predLabel;
+@property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified addDataButton;
+@property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified sendDataButton;
+@property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified sendPredButton;
+@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified addLabel;
 @property (nonatomic, weak) IBOutlet UIStepper * _Null_unspecified dsidStepper;
 @property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified dsidLabel;
-@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified upArrow;
-@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified rightArrow;
-@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified downArrow;
-@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified leftArrow;
-@property (nonatomic, weak) IBOutlet UIProgressView * _Null_unspecified largeMotionMagnitude;
-- (IBAction)magnitudeChanged:(UISlider * _Nonnull)sender;
+- (IBAction)sendData:(id _Nonnull)sender;
+- (IBAction)sendPred:(id _Nonnull)sender;
+- (IBAction)makePrediction:(id _Nonnull)sender;
+- (IBAction)addDataPoint:(id _Nonnull)sender;
+- (IBAction)takePicture:(id _Nonnull)sender;
+- (void)imagePickerController:(UIImagePickerController * _Nonnull)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> * _Nonnull)info;
 - (IBAction)stepperAction:(id _Nonnull)sender;
+- (BOOL)textFieldShouldReturn:(UITextField * _Nonnull)textField SWIFT_WARN_UNUSED_RESULT;
 - (void)viewDidLoad;
 - (IBAction)getDataSetId:(id _Nonnull)sender;
-- (IBAction)startCalibration:(id _Nonnull)sender;
 - (IBAction)makeModel:(id _Nonnull)sender;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;

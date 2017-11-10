@@ -15,12 +15,11 @@
 //    ifconfig |grep inet   
 // to see what your public facing IP address is, the ip address can be used here
 //let SERVER_URL = "http://erics-macbook-pro.local:8000" // change this for your server name!!!
-let SERVER_URL = "http://10.8.99.101:8000" // change this for your server name!!!
+let SERVER_URL = "http://192.168.50.72:8000" // change this for your server name!!!
 
 import UIKit
-import CoreMotion
 
-class ViewController: UIViewController, URLSessionDelegate {
+class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     // MARK: Class Properties
     var session = URLSession()
@@ -28,84 +27,27 @@ class ViewController: UIViewController, URLSessionDelegate {
     let motionOperationQueue = OperationQueue()
     let calibrationOperationQueue = OperationQueue()
     
+    @IBOutlet weak var takePictureButton: UIButton!
+    @IBOutlet weak var updateButton: UIButton!
+    @IBOutlet weak var imageView: UIImageView!
+    let imagePicker = UIImagePickerController()
+    
+    @IBOutlet weak var labelTextField: UITextField!
+    @IBOutlet weak var predButton: UIButton!
+    @IBOutlet weak var predLabel: UILabel!
+    @IBOutlet weak var addDataButton: UIButton!
+    @IBOutlet weak var sendDataButton: UIButton!
+    @IBOutlet weak var sendPredButton: UIButton!
+    @IBOutlet weak var addLabel: UILabel!
     var ringBuffer = RingBuffer()
+    var addDataBool = false
+    var sendPredBool = false
     let animation = CATransition()
-    let motion = CMMotionManager()
-    
-    var magValue = 0.1
-    var isCalibrating = false
-    
-    var isWaitingForMotionData = false
+
+    var photoLabel = ""
     
     @IBOutlet weak var dsidStepper: UIStepper!
     @IBOutlet weak var dsidLabel: UILabel!
-    @IBOutlet weak var upArrow: UILabel!
-    @IBOutlet weak var rightArrow: UILabel!
-    @IBOutlet weak var downArrow: UILabel!
-    @IBOutlet weak var leftArrow: UILabel!
-    @IBOutlet weak var largeMotionMagnitude: UIProgressView!
-    
-    // MARK: Class Properties with Observers
-    enum CalibrationStage {
-        case notCalibrating
-        case up
-        case right
-        case down
-        case left
-    }
-    
-    var calibrationStage:CalibrationStage = .notCalibrating {
-        didSet{
-            switch calibrationStage {
-            case .up:
-                self.isCalibrating = true
-                DispatchQueue.main.async{
-                    self.setAsCalibrating(self.upArrow)
-                    self.setAsNormal(self.rightArrow)
-                    self.setAsNormal(self.leftArrow)
-                    self.setAsNormal(self.downArrow)
-                }
-                break
-            case .left:
-                self.isCalibrating = true
-                DispatchQueue.main.async{
-                    self.setAsNormal(self.upArrow)
-                    self.setAsNormal(self.rightArrow)
-                    self.setAsCalibrating(self.leftArrow)
-                    self.setAsNormal(self.downArrow)
-                }
-                break
-            case .down:
-                self.isCalibrating = true
-                DispatchQueue.main.async{
-                    self.setAsNormal(self.upArrow)
-                    self.setAsNormal(self.rightArrow)
-                    self.setAsNormal(self.leftArrow)
-                    self.setAsCalibrating(self.downArrow)
-                }
-                break
-                
-            case .right:
-                self.isCalibrating = true
-                DispatchQueue.main.async{
-                    self.setAsNormal(self.upArrow)
-                    self.setAsCalibrating(self.rightArrow)
-                    self.setAsNormal(self.leftArrow)
-                    self.setAsNormal(self.downArrow)
-                }
-                break
-            case .notCalibrating:
-                self.isCalibrating = false
-                DispatchQueue.main.async{
-                    self.setAsNormal(self.upArrow)
-                    self.setAsNormal(self.rightArrow)
-                    self.setAsNormal(self.leftArrow)
-                    self.setAsNormal(self.downArrow)
-                }
-                break
-            }
-        }
-    }
     
     var dsid:Int = 0 {
         didSet{
@@ -116,128 +58,128 @@ class ViewController: UIViewController, URLSessionDelegate {
             }
         }
     }
-    
-    @IBAction func magnitudeChanged(_ sender: UISlider) {
-        self.magValue = Double(sender.value)
-    }
-    
-    // MARK: Core Motion Updates
-    func startMotionUpdates(){
-        // some internal inconsistency here: we need to ask the device manager for device
-        
-        if self.motion.isDeviceMotionAvailable{
-            self.motion.deviceMotionUpdateInterval = 1.0/200
-            self.motion.startDeviceMotionUpdates(to: motionOperationQueue, withHandler: self.handleMotion )
-        }
-    }
-    
-    func handleMotion(_ motionData:CMDeviceMotion?, error:Error?){
-        if let accel = motionData?.userAcceleration {
-            self.ringBuffer.addNewData(xData: accel.x, yData: accel.y, zData: accel.z)
-            let mag = fabs(accel.x)+fabs(accel.y)+fabs(accel.z)
-            
-            DispatchQueue.main.async{
-                //show magnitude via indicator
-                self.largeMotionMagnitude.progress = Float(mag)/0.2
-            }
-            
-            if mag > self.magValue {
-                // buffer up a bit more data and then notify of occurrence
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
-                    self.calibrationOperationQueue.addOperation {
-                        // something large enough happened to warrant
-                        self.largeMotionEventOccurred()
-                    }
-                })
-            }
-        }
-    }
-    
-    
-    //MARK: Calibration procedure
-    func largeMotionEventOccurred(){
-        if(self.isCalibrating){
-            //send a labeled example
-            if(self.calibrationStage != .notCalibrating && self.isWaitingForMotionData)
-            {
-                self.isWaitingForMotionData = false
-                
-                // send data to the server with label
-                sendFeatures(self.ringBuffer.getDataAsVector(),
-                             withLabel: self.calibrationStage)
-                
-                self.nextCalibrationStage()
-            }
-        }
-        else
-        {
-            if(self.isWaitingForMotionData)
-            {
-                self.isWaitingForMotionData = false
-                //predict a label
-                getPrediction(self.ringBuffer.getDataAsVector())
-                // dont predict again for a bit
-                setDelayedWaitingToTrue(2.0)
-                
-            }
-        }
-    }
-    
-    func nextCalibrationStage(){
-        switch self.calibrationStage {
-        case .notCalibrating:
-            //start with up arrow
-            self.calibrationStage = .up
-            setDelayedWaitingToTrue(1.0)
-            break
-        case .up:
-            //go to right arrow
-            self.calibrationStage = .right
-            setDelayedWaitingToTrue(1.0)
-            break
-        case .right:
-            //go to down arrow
-            self.calibrationStage = .down
-            setDelayedWaitingToTrue(1.0)
-            break
-        case .down:
-            //go to left arrow
-            self.calibrationStage = .left
-            setDelayedWaitingToTrue(1.0)
-            break
-            
-        case .left:
-            //end calibration
-            self.calibrationStage = .notCalibrating
-            setDelayedWaitingToTrue(1.0)
-            break
-        }
-    }
+
     
     func setDelayedWaitingToTrue(_ time:Double){
         DispatchQueue.main.asyncAfter(deadline: .now() + time, execute: {
-            self.isWaitingForMotionData = true
+//            self.isWaitingForMotionData = true
         })
     }
+
     
-    func setAsCalibrating(_ label: UILabel){
-        label.layer.add(animation, forKey:nil)
-        label.backgroundColor = UIColor.red
+    
+    @IBAction func sendData(_ sender: Any) {
+        sendFeatures(imageView.image!, label: labelTextField.text!)
+        
+        imageView.isHidden = true
+        labelTextField.isHidden = true
+        labelTextField.text = ""
+        addDataButton.isHidden = false
+        predButton.isHidden = false
+        sendDataButton.isHidden = true
+        addLabel.isHidden = true
+        takePictureButton.isHidden = true
+        updateButton.isHidden = false
+        
+        imageView.image = nil
+    }
+
+    @IBAction func sendPred(_ sender: Any) {
+        getPrediction(imageView.image!)
+        
+        
+        labelTextField.isHidden = true
+        takePictureButton.isHidden = true
+        addLabel.isHidden = true
+        sendPredButton.isHidden = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+            self.imageView.isHidden = true
+            self.predLabel.isHidden = true
+            self.imageView.image = nil
+            
+            self.addDataButton.isHidden = false
+            self.predButton.isHidden = false
+            self.sendDataButton.isHidden = true
+            self.updateButton.isHidden = false
+        })
+    }
+    @IBAction func makePrediction(_ sender: Any) {
+        imageView.isHidden = false
+        labelTextField.isHidden = true
+        addLabel.isHidden = true
+        addDataButton.isHidden = true
+        predButton.isHidden = true
+        sendDataButton.isHidden = true
+        takePictureButton.isHidden = false
+        updateButton.isHidden = true
+        
+        sendPredBool = true
+    }
+    @IBAction func addDataPoint(_ sender: Any) {
+        imageView.isHidden = false
+        labelTextField.isHidden = true
+        addLabel.isHidden = true
+        addDataButton.isHidden = true
+        predButton.isHidden = true
+        sendDataButton.isHidden = true
+        takePictureButton.isHidden = false
+        updateButton.isHidden = true
+        addDataBool = true
+    }
+    @IBAction func takePicture(_ sender: Any) {
+        imagePicker.sourceType = .camera
+        
+        present(imagePicker, animated: true, completion: nil)
+        if(addDataBool){
+            labelTextField.isHidden = false
+            addLabel.isHidden = false
+            addDataBool = false
+        }
+        if(sendPredBool){
+            sendPredBool = false
+            sendPredButton.isHidden = false
+        }
     }
     
-    func setAsNormal(_ label: UILabel){
-        label.layer.add(animation, forKey:nil)
-        label.backgroundColor = UIColor.white
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            imageView.contentMode = .scaleAspectFit
+            imageView.image = pickedImage
+        }
+        
+        dismiss(animated: true, completion: nil)
     }
-    
     
     @IBAction func stepperAction(_ sender: Any) {
         dsid = Int(dsidStepper.value);
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
+        labelTextField.resignFirstResponder()
+        if let text = labelTextField.text, !text.isEmpty
+        {
+            self.sendDataButton.isHidden = false
+        }
+        return true
+    }
+    
     // MARK: View Controller Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageView.isHidden = true
+        labelTextField.isHidden = true
+        sendDataButton.isHidden = true
+        sendPredButton.isHidden = true
+        addLabel.isHidden = true
+        predLabel.isHidden = true
+        takePictureButton.isHidden = true
+        updateButton.isHidden = true
+        
+        
+        
+        imagePicker.delegate = self
+        labelTextField.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
         
         let sessionConfig = URLSessionConfiguration.ephemeral
@@ -249,15 +191,6 @@ class ViewController: UIViewController, URLSessionDelegate {
         self.session = URLSession(configuration: sessionConfig,
             delegate: self,
             delegateQueue:self.operationQueue)
-        
-        // create reusable animation
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        animation.type = kCATransitionFade
-        animation.duration = 0.5
-        
-        
-        // setup core motion handlers
-        startMotionUpdates()
         
         dsidStepper.autorepeat = true
         dsidStepper.maximumValue = 100.0
@@ -282,6 +215,7 @@ class ViewController: UIViewController, URLSessionDelegate {
                     
                     // This better be an integer
                     if let dsid = jsonDictionary["dsid"]{
+                        print(dsid)
                         self.dsid = dsid as! Int
                     }
                 }
@@ -292,23 +226,23 @@ class ViewController: UIViewController, URLSessionDelegate {
         
     }
     
-    //MARK: Calibration
-    @IBAction func startCalibration(_ sender: AnyObject) {
-        self.isWaitingForMotionData = false // dont do anything yet
-        nextCalibrationStage()
-        
-    }
-    
     //MARK: Comm with Server
-    func sendFeatures(_ array:[Double], withLabel label:CalibrationStage){
+    func sendFeatures(_ array:UIImage, label:String){
         let baseURL = "\(SERVER_URL)/AddDataPoint"
         let postUrl = URL(string: "\(baseURL)")
         
         // create a custom HTTP POST request
         var request = URLRequest(url: postUrl!)
         
+//        let imageData: NSData = UIImageJPEGRepresentation(array, 0.4)! as NSData
+//        let imageStr = imageData.base64EncodedString()
+        
+        let size = CGSize(width: 224, height: 224)
+        
+        let pixelBuffer = array.resize(to: size).pixelData()
+        
         // data to send in body of post request (send arguments as json)
-        let jsonUpload:NSDictionary = ["feature":array,
+        let jsonUpload:NSDictionary = ["feature":pixelBuffer!,
                                        "label":"\(label)",
                                        "dsid":self.dsid]
         
@@ -337,15 +271,19 @@ class ViewController: UIViewController, URLSessionDelegate {
         postTask.resume() // start the task
     }
     
-    func getPrediction(_ array:[Double]){
+    func getPrediction(_ array:UIImage){
         let baseURL = "\(SERVER_URL)/PredictOne"
         let postUrl = URL(string: "\(baseURL)")
         
         // create a custom HTTP POST request
         var request = URLRequest(url: postUrl!)
         
+        let size = CGSize(width: 224, height: 224)
+        
+        let pixelBuffer = array.resize(to: size).pixelData()
+        
         // data to send in body of post request (send arguments as json)
-        let jsonUpload:NSDictionary = ["feature":array, "dsid":self.dsid]
+        let jsonUpload:NSDictionary = ["feature":pixelBuffer!, "dsid":self.dsid]
         
         
         let requestBody:Data? = self.convertDictionaryToData(with:jsonUpload)
@@ -375,33 +313,10 @@ class ViewController: UIViewController, URLSessionDelegate {
     }
     
     func displayLabelResponse(_ response:String){
-        switch response {
-        case "['up']":
-            blinkLabel(upArrow)
-            break
-        case "['down']":
-            blinkLabel(downArrow)
-            break
-        case "['left']":
-            blinkLabel(leftArrow)
-            break
-        case "['right']":
-            blinkLabel(rightArrow)
-            break
-        default:
-            print("Unknown")
-            break
-        }
-    }
-    
-    func blinkLabel(_ label:UILabel){
         DispatchQueue.main.async {
-            self.setAsCalibrating(label)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                self.setAsNormal(label)
-            })
+            self.predLabel.text = "Prediction: " + response
+            self.predLabel.isHidden = false
         }
-        
     }
     
     @IBAction func makeModel(_ sender: AnyObject) {
@@ -427,7 +342,7 @@ class ViewController: UIViewController, URLSessionDelegate {
                         print("Resubstitution Accuracy is", resubAcc)
                     }
                 }
-                                                                    
+                
         })
         
         dataTask.resume() // start the task
@@ -461,6 +376,34 @@ class ViewController: UIViewController, URLSessionDelegate {
 
 }
 
+extension UIImage {
+    func resize(to newSize: CGSize) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: newSize.width, height: newSize.height), true, 1.0)
+        self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return resizedImage
+    }
+    func pixelData() -> [UInt8]? {
+        
+        let size = self.size
+        let dataSize = size.width * size.height * 4
+        var pixelData = [UInt8](repeating: 0, count: Int(dataSize))
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGContext(data: &pixelData,
+                                width: Int(size.width),
+                                height: Int(size.height),
+                                bitsPerComponent: 8,
+                                bytesPerRow: 4 * Int(size.width),
+                                space: colorSpace,
+                                bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
+        guard let cgImage = self.cgImage else { return nil }
+        context?.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        
+        return pixelData
+    }
+}
 
 
 
