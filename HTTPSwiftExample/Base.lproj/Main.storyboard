@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -124,28 +124,76 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSL-g0-Vi8">
+                                <rect key="frame" x="123" y="237" width="128" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Olv-xp-Ed1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Change Model"/>
+                                <connections>
+                                    <action selector="sendModelChange:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="LAk-UO-vb5"/>
+                                </connections>
+                            </button>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UeV-O3-Y6o">
+                                <rect key="frame" x="0.0" y="198" width="375" height="162"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="162" id="r04-eW-z8k"/>
+                                </constraints>
+                            </pickerView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zVF-Bu-qpM">
+                                <rect key="frame" x="248" y="433.5" width="98" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RNB-Ww-eTl">
+                                <rect key="frame" x="137" y="629" width="101" height="30"/>
+                                <state key="normal" title="Return to main"/>
+                                <connections>
+                                    <action selector="returnToMain:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="T7a-uj-uVK"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter in Paramater: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z0R-eA-Xdm">
+                                <rect key="frame" x="79" y="437" width="151" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="7fl-Uw-96Y" firstAttribute="centerX" secondItem="qrQ-Oh-lVv" secondAttribute="centerX" id="1El-Zr-lrn"/>
                             <constraint firstItem="qrQ-Oh-lVv" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="1iB-wD-4yG"/>
+                            <constraint firstItem="UeV-O3-Y6o" firstAttribute="top" secondItem="xSL-g0-Vi8" secondAttribute="bottom" constant="-69" id="3Fq-ZW-Ogu"/>
                             <constraint firstItem="dvd-ct-D3G" firstAttribute="top" secondItem="poX-6f-2s1" secondAttribute="bottom" constant="8" symbolic="YES" id="6qf-0Y-Ade"/>
                             <constraint firstItem="qrQ-Oh-lVv" firstAttribute="top" secondItem="poX-6f-2s1" secondAttribute="bottom" constant="35" id="86W-On-z9G"/>
+                            <constraint firstItem="UeV-O3-Y6o" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="Aux-zO-ZCb"/>
                             <constraint firstItem="poX-6f-2s1" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" constant="1" id="BVD-xr-3uf"/>
+                            <constraint firstItem="RNB-Ww-eTl" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" constant="-8" id="DlP-O9-vSc"/>
                             <constraint firstItem="tcD-Vi-kNx" firstAttribute="centerX" secondItem="qrQ-Oh-lVv" secondAttribute="centerX" id="EXu-Nu-eVr"/>
                             <constraint firstItem="kXJ-SL-qGM" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="26" id="GFb-x1-L5z"/>
+                            <constraint firstItem="xSL-g0-Vi8" firstAttribute="centerX" secondItem="tcD-Vi-kNx" secondAttribute="centerX" id="IHL-Sf-HHR"/>
+                            <constraint firstItem="zVF-Bu-qpM" firstAttribute="leading" secondItem="z0R-eA-Xdm" secondAttribute="trailing" constant="18" id="Ifg-xg-B19"/>
+                            <constraint firstItem="zVF-Bu-qpM" firstAttribute="centerY" secondItem="z0R-eA-Xdm" secondAttribute="centerY" constant="1" id="IuW-VD-VzK"/>
                             <constraint firstItem="hnx-72-uCy" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="JaZ-Dz-f0H"/>
                             <constraint firstItem="yA7-nd-seT" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-9" id="JmY-fg-drR"/>
                             <constraint firstAttribute="trailing" secondItem="poX-6f-2s1" secondAttribute="trailing" constant="58" id="L5l-aY-iHG"/>
                             <constraint firstAttribute="trailing" secondItem="zkf-DA-NzB" secondAttribute="trailing" constant="117" id="MAo-tD-xPz"/>
+                            <constraint firstItem="z0R-eA-Xdm" firstAttribute="top" secondItem="zRH-el-kqa" secondAttribute="bottom" constant="-29" id="Muz-ks-5yq"/>
                             <constraint firstItem="hnx-72-uCy" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="79" id="ORC-dY-6zq"/>
                             <constraint firstItem="poX-6f-2s1" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" constant="-46" id="QxX-1z-0Ne"/>
+                            <constraint firstItem="eAW-Wr-udo" firstAttribute="leading" secondItem="z0R-eA-Xdm" secondAttribute="trailing" constant="-112" id="UHh-LR-9Is"/>
+                            <constraint firstItem="UeV-O3-Y6o" firstAttribute="centerX" secondItem="xSL-g0-Vi8" secondAttribute="centerX" id="Wkp-qO-dTP"/>
                             <constraint firstItem="5XE-bG-GdU" firstAttribute="centerX" secondItem="kXJ-SL-qGM" secondAttribute="centerX" id="YO2-bB-AHr"/>
                             <constraint firstItem="eAW-Wr-udo" firstAttribute="top" secondItem="qrQ-Oh-lVv" secondAttribute="bottom" constant="8" symbolic="YES" id="cEZ-eK-w8j"/>
                             <constraint firstItem="5XE-bG-GdU" firstAttribute="centerY" secondItem="yA7-nd-seT" secondAttribute="centerY" id="dKC-M0-djM"/>
                             <constraint firstItem="dvd-ct-D3G" firstAttribute="leading" secondItem="zRH-el-kqa" secondAttribute="trailing" constant="6" id="eSR-ze-QbB"/>
+                            <constraint firstItem="xSL-g0-Vi8" firstAttribute="top" secondItem="Cpv-Gd-F4M" secondAttribute="bottom" constant="3" id="edQ-fa-ASI"/>
+                            <constraint firstItem="RNB-Ww-eTl" firstAttribute="leading" secondItem="7fl-Uw-96Y" secondAttribute="leading" constant="-29" id="gF9-VS-pgM"/>
                             <constraint firstItem="Cpv-Gd-F4M" firstAttribute="top" secondItem="tcD-Vi-kNx" secondAttribute="bottom" constant="8" symbolic="YES" id="hZn-za-tWy"/>
                             <constraint firstItem="tcD-Vi-kNx" firstAttribute="top" secondItem="hnx-72-uCy" secondAttribute="bottom" constant="19" id="iyG-gh-snJ"/>
+                            <constraint firstItem="zVF-Bu-qpM" firstAttribute="trailing" secondItem="dvd-ct-D3G" secondAttribute="trailing" constant="28.5" id="kA2-ci-cWV"/>
                             <constraint firstItem="kXJ-SL-qGM" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="218" id="kMd-Z1-Hr6"/>
                             <constraint firstItem="dvd-ct-D3G" firstAttribute="trailing" secondItem="poX-6f-2s1" secondAttribute="trailing" id="ld7-nK-4R6"/>
                             <constraint firstItem="zkf-DA-NzB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eAW-Wr-udo" secondAttribute="leading" id="o0P-vL-LBP"/>
@@ -164,12 +212,17 @@
                     <connections>
                         <outlet property="addDataButton" destination="tcD-Vi-kNx" id="yZh-VB-pTp"/>
                         <outlet property="addLabel" destination="zRH-el-kqa" id="ggZ-0N-s62"/>
+                        <outlet property="changeModel" destination="xSL-g0-Vi8" id="0Q9-D6-0oB"/>
                         <outlet property="dsidLabel" destination="yA7-nd-seT" id="pMu-dh-28l"/>
                         <outlet property="dsidStepper" destination="5XE-bG-GdU" id="Lvc-9D-SaO"/>
                         <outlet property="imageView" destination="poX-6f-2s1" id="heW-wT-UQu"/>
                         <outlet property="labelTextField" destination="dvd-ct-D3G" id="XhH-Nm-VN5"/>
+                        <outlet property="modelPicker" destination="UeV-O3-Y6o" id="NW6-92-J0C"/>
+                        <outlet property="parameterData" destination="zVF-Bu-qpM" id="K1a-Q0-2Bc"/>
+                        <outlet property="parameterLabel" destination="z0R-eA-Xdm" id="MxI-Bq-nY3"/>
                         <outlet property="predButton" destination="Cpv-Gd-F4M" id="0Fu-t8-9V5"/>
                         <outlet property="predLabel" destination="7fl-Uw-96Y" id="odK-Zc-tXa"/>
+                        <outlet property="returnButton" destination="RNB-Ww-eTl" id="0Kv-NN-oSt"/>
                         <outlet property="sendDataButton" destination="eAW-Wr-udo" id="kIF-4S-b7W"/>
                         <outlet property="sendPredButton" destination="zkf-DA-NzB" id="fvu-cH-8J5"/>
                         <outlet property="takePictureButton" destination="qrQ-Oh-lVv" id="roB-m6-JEV"/>

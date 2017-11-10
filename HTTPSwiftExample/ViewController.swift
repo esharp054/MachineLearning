@@ -15,11 +15,11 @@
 //    ifconfig |grep inet   
 // to see what your public facing IP address is, the ip address can be used here
 //let SERVER_URL = "http://erics-macbook-pro.local:8000" // change this for your server name!!!
-let SERVER_URL = "http://192.168.50.72:8000" // change this for your server name!!!
+let SERVER_URL = "http://10.8.110.154:8000" // change this for your server name!!!
 
 import UIKit
 
-class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate , UIPickerViewDelegate, UIPickerViewDataSource{
     
     // MARK: Class Properties
     var session = URLSession()
@@ -29,6 +29,7 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
     
     @IBOutlet weak var takePictureButton: UIButton!
     @IBOutlet weak var updateButton: UIButton!
+    @IBOutlet weak var modelPicker: UIPickerView!
     @IBOutlet weak var imageView: UIImageView!
     let imagePicker = UIImagePickerController()
     
@@ -38,17 +39,25 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
     @IBOutlet weak var addDataButton: UIButton!
     @IBOutlet weak var sendDataButton: UIButton!
     @IBOutlet weak var sendPredButton: UIButton!
+    @IBOutlet weak var returnButton: UIButton!
     @IBOutlet weak var addLabel: UILabel!
+    @IBOutlet weak var changeModel: UIButton!
+    @IBOutlet weak var parameterLabel: UILabel!
+    @IBOutlet weak var parameterData: UITextField!
+    
     var ringBuffer = RingBuffer()
     var addDataBool = false
     var sendPredBool = false
     let animation = CATransition()
 
     var photoLabel = ""
+    var pickerData: [String] = [String]()
+    var parameterdata:Float = 0.0
     
     @IBOutlet weak var dsidStepper: UIStepper!
     @IBOutlet weak var dsidLabel: UILabel!
     
+    var modelInt = 0
     var dsid:Int = 0 {
         didSet{
             DispatchQueue.main.async{
@@ -80,10 +89,71 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
         addLabel.isHidden = true
         takePictureButton.isHidden = true
         updateButton.isHidden = false
+        changeModel.isHidden = false
         
         imageView.image = nil
     }
-
+    
+  
+    @IBAction func sendModelChange(_ sender: Any) {
+        imageView.isHidden = true
+        labelTextField.isHidden = true
+        sendDataButton.isHidden = true
+        sendPredButton.isHidden = true
+        addLabel.isHidden = true
+        predLabel.isHidden = true
+        takePictureButton.isHidden = true
+        updateButton.isHidden = true
+        addDataButton.isHidden = true
+        predButton.isHidden = true
+        modelPicker.isHidden = false
+        changeModel.isHidden = true
+        parameterLabel.isHidden = false
+        parameterData.isHidden = false
+        returnButton.isHidden = false
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1;
+    }
+    
+    // The number of rows of data
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+    
+    // The data to return for the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerData[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        // This method is triggered whenever the user makes a change to the picker selection.
+        // The parameter named row and component represents what was selected.
+        let val = pickerData[row]
+        
+        if(val == "SVC"){
+            modelInt = 0
+            parameterLabel.text = "Enter SVC Gamma Value: "
+        }
+        else if(val == "Random Forest"){
+            modelInt = 1
+            parameterLabel.text = "Enter # of Random Forest estimators: "
+        }
+        else if(val == "KNN"){
+            modelInt = 2
+            parameterLabel.text = "Enter # of KNN neighbors: "
+        }
+        
+//        if let text = parameterData.text, !text.isEmpty
+//        {
+//             parameterdata = Float(parameterData.text!)!
+//        }
+//        else{
+//             parameterdata = 0
+//        }
+    }
+    
     @IBAction func sendPred(_ sender: Any) {
         getPrediction(imageView.image!)
         
@@ -92,6 +162,7 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
         takePictureButton.isHidden = true
         addLabel.isHidden = true
         sendPredButton.isHidden = true
+        changeModel.isHidden = true
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
             self.imageView.isHidden = true
@@ -102,6 +173,7 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
             self.predButton.isHidden = false
             self.sendDataButton.isHidden = true
             self.updateButton.isHidden = false
+            self.changeModel.isHidden = false
         })
     }
     @IBAction func makePrediction(_ sender: Any) {
@@ -113,6 +185,7 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
         sendDataButton.isHidden = true
         takePictureButton.isHidden = false
         updateButton.isHidden = true
+        changeModel.isHidden = true
         
         sendPredBool = true
     }
@@ -125,6 +198,7 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
         sendDataButton.isHidden = true
         takePictureButton.isHidden = false
         updateButton.isHidden = true
+        changeModel.isHidden = true
         addDataBool = true
     }
     @IBAction func takePicture(_ sender: Any) {
@@ -157,6 +231,7 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
         labelTextField.resignFirstResponder()
+        parameterData.resignFirstResponder()
         if let text = labelTextField.text, !text.isEmpty
         {
             self.sendDataButton.isHidden = false
@@ -175,11 +250,18 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
         predLabel.isHidden = true
         takePictureButton.isHidden = true
         updateButton.isHidden = true
+        modelPicker.isHidden = true
+        parameterData.isHidden = true
+        parameterLabel.isHidden = true
+        returnButton.isHidden = true
+        self.modelPicker.delegate = self
+        self.modelPicker.dataSource = self
         
-        
+        pickerData = ["SVC", "Random Forest", "KNN"]
         
         imagePicker.delegate = self
         labelTextField.delegate = self
+        parameterData.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
         
         let sessionConfig = URLSessionConfiguration.ephemeral
@@ -198,7 +280,30 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
         dsid = 2 // set this and it will update UI
     }
 
-    //MARK: Get New Dataset ID
+    @IBAction func returnToMain(_ sender: Any) {
+        imageView.isHidden = true
+        labelTextField.isHidden = true
+        sendDataButton.isHidden = true
+        sendPredButton.isHidden = true
+        addLabel.isHidden = true
+        predLabel.isHidden = true
+        changeModel.isHidden = false
+        addDataButton.isHidden = false
+        predButton.isHidden = false
+        takePictureButton.isHidden = true
+        updateButton.isHidden = false
+        modelPicker.isHidden = true
+        parameterData.isHidden = true
+        parameterLabel.isHidden = true
+        returnButton.isHidden = true
+        
+        if let text = parameterData.text, !text.isEmpty
+        {
+            parameterdata = Float(parameterData.text!)!
+        }
+        
+    }
+    
     @IBAction func getDataSetId(_ sender: AnyObject) {
         // create a GET request for a new DSID from server
         let baseURL = "\(SERVER_URL)/GetNewDatasetId"
@@ -324,8 +429,11 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
         // create a GET request for server to update the ML model with current data
         let baseURL = "\(SERVER_URL)/UpdateModel"
         let query = "?dsid=\(self.dsid)"
+        let query2 = "&model=\(self.modelInt)"
+        let query3 = "&parameter=\(self.parameterdata)"
         
-        let getUrl = URL(string: baseURL+query)
+        
+        let getUrl = URL(string: baseURL+query+query2+query3)
         let request: URLRequest = URLRequest(url: getUrl!)
         let dataTask : URLSessionDataTask = self.session.dataTask(with: request,
               completionHandler:{(data, response, error) in
@@ -344,6 +452,9 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
                 }
                 
         })
+        DispatchQueue.main.async {
+            self.updateButton.isHidden = true
+        }
         
         dataTask.resume() // start the task
         
