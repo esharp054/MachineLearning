@@ -87,7 +87,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current DSID:  0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yA7-nd-seT">
-                                <rect key="frame" x="7" y="64" width="142" height="24"/>
+                                <rect key="frame" x="0.0" y="81" width="142" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -102,14 +102,8 @@
                                     <action selector="makeModel:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="8rn-ZV-hYa"/>
                                 </connections>
                             </button>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minimumValue="1" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="5XE-bG-GdU">
-                                <rect key="frame" x="249" y="62" width="94" height="29"/>
-                                <connections>
-                                    <action selector="stepperAction:" destination="vXZ-lx-hvc" eventType="valueChanged" id="rHf-Iy-4p7"/>
-                                </connections>
-                            </stepper>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kXJ-SL-qGM">
-                                <rect key="frame" x="234" y="90" width="125" height="36"/>
+                                <rect key="frame" x="234" y="111" width="125" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Get New DSID">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -225,6 +219,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minimumValue="1" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="5XE-bG-GdU">
+                                <rect key="frame" x="249" y="79" width="94" height="29"/>
+                                <connections>
+                                    <action selector="stepperAction:" destination="vXZ-lx-hvc" eventType="valueChanged" id="rHf-Iy-4p7"/>
+                                </connections>
+                            </stepper>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -237,12 +237,12 @@
                             <constraint firstItem="poX-6f-2s1" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" constant="1" id="BVD-xr-3uf"/>
                             <constraint firstItem="RNB-Ww-eTl" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" constant="-8" id="DlP-O9-vSc"/>
                             <constraint firstItem="tcD-Vi-kNx" firstAttribute="centerX" secondItem="qrQ-Oh-lVv" secondAttribute="centerX" id="EXu-Nu-eVr"/>
-                            <constraint firstItem="kXJ-SL-qGM" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="26" id="GFb-x1-L5z"/>
+                            <constraint firstItem="kXJ-SL-qGM" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="47" id="GFb-x1-L5z"/>
                             <constraint firstItem="xSL-g0-Vi8" firstAttribute="centerX" secondItem="tcD-Vi-kNx" secondAttribute="centerX" id="IHL-Sf-HHR"/>
                             <constraint firstItem="zVF-Bu-qpM" firstAttribute="leading" secondItem="z0R-eA-Xdm" secondAttribute="trailing" constant="18" id="Ifg-xg-B19"/>
                             <constraint firstItem="zVF-Bu-qpM" firstAttribute="centerY" secondItem="z0R-eA-Xdm" secondAttribute="centerY" constant="1" id="IuW-VD-VzK"/>
                             <constraint firstItem="hnx-72-uCy" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="JaZ-Dz-f0H"/>
-                            <constraint firstItem="yA7-nd-seT" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-9" id="JmY-fg-drR"/>
+                            <constraint firstItem="yA7-nd-seT" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="JmY-fg-drR"/>
                             <constraint firstAttribute="trailing" secondItem="poX-6f-2s1" secondAttribute="trailing" constant="58" id="L5l-aY-iHG"/>
                             <constraint firstAttribute="trailing" secondItem="zkf-DA-NzB" secondAttribute="trailing" constant="117" id="MAo-tD-xPz"/>
                             <constraint firstItem="z0R-eA-Xdm" firstAttribute="top" secondItem="zRH-el-kqa" secondAttribute="bottom" constant="-29" id="Muz-ks-5yq"/>
@@ -263,14 +263,14 @@
                             <constraint firstItem="dvd-ct-D3G" firstAttribute="trailing" secondItem="poX-6f-2s1" secondAttribute="trailing" id="ld7-nK-4R6"/>
                             <constraint firstItem="zkf-DA-NzB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eAW-Wr-udo" secondAttribute="leading" id="o0P-vL-LBP"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kXJ-SL-qGM" secondAttribute="trailingMargin" id="q2a-1d-Qbh"/>
-                            <constraint firstItem="yA7-nd-seT" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="qKd-4K-tcU"/>
+                            <constraint firstItem="yA7-nd-seT" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="17" id="qKd-4K-tcU"/>
                             <constraint firstItem="poX-6f-2s1" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="123" id="qcb-88-26O"/>
                             <constraint firstItem="qrQ-Oh-lVv" firstAttribute="top" secondItem="zRH-el-kqa" secondAttribute="bottom" constant="1" id="rvI-vd-0fC"/>
                             <constraint firstItem="7fl-Uw-96Y" firstAttribute="top" secondItem="zkf-DA-NzB" secondAttribute="bottom" constant="8" symbolic="YES" id="spu-vv-lke"/>
                             <constraint firstItem="zRH-el-kqa" firstAttribute="leading" secondItem="poX-6f-2s1" secondAttribute="leading" id="u2G-NX-Feh"/>
                             <constraint firstItem="eAW-Wr-udo" firstAttribute="centerX" secondItem="qrQ-Oh-lVv" secondAttribute="centerX" constant="1" id="v9i-Tf-yMO"/>
                             <constraint firstItem="zkf-DA-NzB" firstAttribute="top" secondItem="eAW-Wr-udo" secondAttribute="bottom" constant="8" symbolic="YES" id="vvW-b8-tU2"/>
-                            <constraint firstItem="yA7-nd-seT" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" constant="-210" id="y9e-6H-PmW"/>
+                            <constraint firstItem="yA7-nd-seT" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" constant="-217" id="y9e-6H-PmW"/>
                             <constraint firstItem="Cpv-Gd-F4M" firstAttribute="centerX" secondItem="hnx-72-uCy" secondAttribute="centerX" id="ycV-ky-39W"/>
                         </constraints>
                     </view>

@@ -1,10 +1,10 @@
 version: "Apple Swift version 4.0.2 (swiftlang-900.0.69.2 clang-900.0.38)"
 options: "803490ab55ce623d46b8aef814772787"
-build_time: [1510354139, 955419000]
+build_time: [1510354609, 212381000]
 inputs:
   "/Users/esharp2/MobileSensing/MachineLearning/HTTPSwiftExample/ViewController.swift": [1510351485, 0]
   "/Users/esharp2/MobileSensing/MachineLearning/HTTPSwiftExample/AppDelegate.swift": [1510353864, 0]
-  "/Users/esharp2/MobileSensing/MachineLearning/HTTPSwiftExample/CoreMLViewController.swift": [1510354134, 0]
+  "/Users/esharp2/MobileSensing/MachineLearning/HTTPSwiftExample/CoreMLViewController.swift": [1510354601, 0]
   "/Users/esharp2/MobileSensing/MachineLearning/HTTPSwiftExample/RingBuffer.swift": [1509630651, 0]
-  "/Users/esharp2/MobileSensing/MachineLearning/Build/Intermediates/HTTPSwiftExample.build/Debug-iphoneos/HTTPSwiftExample.build/DerivedSources/CoreMLGenerated/RandomForestAccel/RandomForestAccel.swift": [1510353679, 0]
-  "/Users/esharp2/MobileSensing/MachineLearning/Build/Intermediates/HTTPSwiftExample.build/Debug-iphoneos/HTTPSwiftExample.build/DerivedSources/CoreMLGenerated/SVMAccel/SVMAccel.swift": [1510353679, 0]
+  "/Users/esharp2/MobileSensing/MachineLearning/Build/Intermediates/HTTPSwiftExample.build/Debug-iphoneos/HTTPSwiftExample.build/DerivedSources/CoreMLGenerated/RandomForestAccel/RandomForestAccel.swift": [1510354601, 0]
+  "/Users/esharp2/MobileSensing/MachineLearning/Build/Intermediates/HTTPSwiftExample.build/Debug-iphoneos/HTTPSwiftExample.build/DerivedSources/CoreMLGenerated/SVMAccel/SVMAccel.swift": [1510354601, 0]
