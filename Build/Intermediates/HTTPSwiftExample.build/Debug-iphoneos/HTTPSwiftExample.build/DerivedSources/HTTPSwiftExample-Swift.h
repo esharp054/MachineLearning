@@ -173,8 +173,8 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 #if __has_feature(modules)
 @import UIKit;
-@import ObjectiveC;
 @import Foundation;
+@import ObjectiveC;
 #endif
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
@@ -201,6 +201,27 @@ SWIFT_CLASS("_TtC16HTTPSwiftExample11AppDelegate")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class UIImageView;
+@class UIButton;
+@class UILabel;
+@class UIImagePickerController;
+@class NSBundle;
+@class NSCoder;
+
+SWIFT_CLASS("_TtC16HTTPSwiftExample20CoreMLViewController")
+@interface CoreMLViewController : UIViewController <NSURLSessionDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@property (nonatomic, weak) IBOutlet UIImageView * _Null_unspecified imageView;
+@property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified sendPredButton;
+@property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified takePictureButton;
+@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified predLabel;
+- (IBAction)sendPred:(id _Nonnull)sender;
+- (IBAction)takePicture:(id _Nonnull)sender;
+- (void)imagePickerController:(UIImagePickerController * _Nonnull)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> * _Nonnull)info;
+- (void)viewDidLoad;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
 
 SWIFT_CLASS("_TtC16HTTPSwiftExample10RingBuffer")
 @interface RingBuffer : NSObject
@@ -209,19 +230,15 @@ SWIFT_CLASS("_TtC16HTTPSwiftExample10RingBuffer")
 
 
 
-@class UIButton;
-@class UIImageView;
+@class UIPickerView;
 @class UITextField;
-@class UILabel;
 @class UIStepper;
-@class UIImagePickerController;
-@class NSBundle;
-@class NSCoder;
 
 SWIFT_CLASS("_TtC16HTTPSwiftExample14ViewController")
-@interface ViewController : UIViewController <NSURLSessionDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate>
+@interface ViewController : UIViewController <NSURLSessionDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 @property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified takePictureButton;
 @property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified updateButton;
+@property (nonatomic, weak) IBOutlet UIPickerView * _Null_unspecified modelPicker;
 @property (nonatomic, weak) IBOutlet UIImageView * _Null_unspecified imageView;
 @property (nonatomic, weak) IBOutlet UITextField * _Null_unspecified labelTextField;
 @property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified predButton;
@@ -229,10 +246,19 @@ SWIFT_CLASS("_TtC16HTTPSwiftExample14ViewController")
 @property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified addDataButton;
 @property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified sendDataButton;
 @property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified sendPredButton;
+@property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified returnButton;
 @property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified addLabel;
+@property (nonatomic, weak) IBOutlet UIButton * _Null_unspecified changeModel;
+@property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified parameterLabel;
+@property (nonatomic, weak) IBOutlet UITextField * _Null_unspecified parameterData;
 @property (nonatomic, weak) IBOutlet UIStepper * _Null_unspecified dsidStepper;
 @property (nonatomic, weak) IBOutlet UILabel * _Null_unspecified dsidLabel;
 - (IBAction)sendData:(id _Nonnull)sender;
+- (IBAction)sendModelChange:(id _Nonnull)sender;
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView * _Nonnull)pickerView SWIFT_WARN_UNUSED_RESULT;
+- (NSInteger)pickerView:(UIPickerView * _Nonnull)pickerView numberOfRowsInComponent:(NSInteger)component SWIFT_WARN_UNUSED_RESULT;
+- (NSString * _Nullable)pickerView:(UIPickerView * _Nonnull)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component SWIFT_WARN_UNUSED_RESULT;
+- (void)pickerView:(UIPickerView * _Nonnull)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component;
 - (IBAction)sendPred:(id _Nonnull)sender;
 - (IBAction)makePrediction:(id _Nonnull)sender;
 - (IBAction)addDataPoint:(id _Nonnull)sender;
@@ -241,6 +267,7 @@ SWIFT_CLASS("_TtC16HTTPSwiftExample14ViewController")
 - (IBAction)stepperAction:(id _Nonnull)sender;
 - (BOOL)textFieldShouldReturn:(UITextField * _Nonnull)textField SWIFT_WARN_UNUSED_RESULT;
 - (void)viewDidLoad;
+- (IBAction)returnToMain:(id _Nonnull)sender;
 - (IBAction)getDataSetId:(id _Nonnull)sender;
 - (IBAction)makeModel:(id _Nonnull)sender;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;

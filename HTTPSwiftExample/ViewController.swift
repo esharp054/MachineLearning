@@ -15,7 +15,7 @@
 //    ifconfig |grep inet   
 // to see what your public facing IP address is, the ip address can be used here
 //let SERVER_URL = "http://erics-macbook-pro.local:8000" // change this for your server name!!!
-let SERVER_URL = "http://10.8.110.154:8000" // change this for your server name!!!
+let SERVER_URL = "http://169.254.25.42:8000" // change this for your server name!!!
 
 import UIKit
 
@@ -52,7 +52,7 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
 
     var photoLabel = ""
     var pickerData: [String] = [String]()
-    var parameterdata:Float = 0.0
+    var parameterdata:Float = 1.0
     
     @IBOutlet weak var dsidStepper: UIStepper!
     @IBOutlet weak var dsidLabel: UILabel!
@@ -485,35 +485,6 @@ class ViewController: UIViewController, URLSessionDelegate, UIImagePickerControl
         }
     }
 
-}
-
-extension UIImage {
-    func resize(to newSize: CGSize) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(CGSize(width: newSize.width, height: newSize.height), true, 1.0)
-        self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        return resizedImage
-    }
-    func pixelData() -> [UInt8]? {
-        
-        let size = self.size
-        let dataSize = size.width * size.height * 4
-        var pixelData = [UInt8](repeating: 0, count: Int(dataSize))
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let context = CGContext(data: &pixelData,
-                                width: Int(size.width),
-                                height: Int(size.height),
-                                bitsPerComponent: 8,
-                                bytesPerRow: 4 * Int(size.width),
-                                space: colorSpace,
-                                bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
-        guard let cgImage = self.cgImage else { return nil }
-        context?.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-        
-        return pixelData
-    }
 }
 
 

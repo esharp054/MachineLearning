@@ -84,11 +84,17 @@ class UpdateModelForDatasetId(BaseHandler):
 
         # fit the model to the data
         
-        if mod == 0:
+        if mod == 2:
+            if param == 0.0:
+                param = 15
             c1 = KNeighborsClassifier(n_neighbors=int(param));
-        elif mod == 1:
+        elif mod == 0:
+            if param == 0.0:
+                param = .001
             c1 = SVC(gamma=param)
-        elif mod == 2:
+        elif mod == 1:
+            if param == 0.0:
+                param = 10
             c1 = RandomForestClassifier(n_estimators=int(param))
 
         acc = -1;

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5289D48D1FB659BB00D55DB0 /* CoreMLViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5289D48C1FB659BB00D55DB0 /* CoreMLViewController.swift */; };
+		5289D4921FB65C8C00D55DB0 /* RandomForestAccel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5289D4901FB65C8B00D55DB0 /* RandomForestAccel.mlmodel */; };
+		5289D4931FB65C8C00D55DB0 /* SVMAccel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5289D4911FB65C8B00D55DB0 /* SVMAccel.mlmodel */; };
 		B67483DB1ACA2D6800A9970E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67483DA1ACA2D6800A9970E /* AppDelegate.swift */; };
 		B67483DD1ACA2D6800A9970E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67483DC1ACA2D6800A9970E /* ViewController.swift */; };
 		B67483E01ACA2D6800A9970E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B67483DE1ACA2D6800A9970E /* Main.storyboard */; };
@@ -16,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5289D48C1FB659BB00D55DB0 /* CoreMLViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLViewController.swift; sourceTree = "<group>"; };
+		5289D4901FB65C8B00D55DB0 /* RandomForestAccel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = RandomForestAccel.mlmodel; sourceTree = "<group>"; };
+		5289D4911FB65C8B00D55DB0 /* SVMAccel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SVMAccel.mlmodel; sourceTree = "<group>"; };
 		B67483D51ACA2D6800A9970E /* HTTPSwiftExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HTTPSwiftExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67483D91ACA2D6800A9970E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B67483DA1ACA2D6800A9970E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -42,6 +48,8 @@
 		B67483CC1ACA2D6800A9970E = {
 			isa = PBXGroup;
 			children = (
+				5289D4901FB65C8B00D55DB0 /* RandomForestAccel.mlmodel */,
+				5289D4911FB65C8B00D55DB0 /* SVMAccel.mlmodel */,
 				B67483D71ACA2D6800A9970E /* HTTPSwiftExample */,
 				B67483ED1ACA2D6800A9970E /* HTTPSwiftExampleTests */,
 				B67483D61ACA2D6800A9970E /* Products */,
@@ -59,6 +67,7 @@
 		B67483D71ACA2D6800A9970E /* HTTPSwiftExample */ = {
 			isa = PBXGroup;
 			children = (
+				5289D48C1FB659BB00D55DB0 /* CoreMLViewController.swift */,
 				B67483DA1ACA2D6800A9970E /* AppDelegate.swift */,
 				B67483DC1ACA2D6800A9970E /* ViewController.swift */,
 				B694B0191FA377E4009A4277 /* RingBuffer.swift */,
@@ -126,7 +135,7 @@
 				TargetAttributes = {
 					B67483D41ACA2D6800A9970E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 52823ULQN3;
+						DevelopmentTeam = 59272Q867S;
 						LastSwiftMigration = 0810;
 					};
 				};
@@ -167,8 +176,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5289D4921FB65C8C00D55DB0 /* RandomForestAccel.mlmodel in Sources */,
 				B67483DD1ACA2D6800A9970E /* ViewController.swift in Sources */,
+				5289D4931FB65C8C00D55DB0 /* SVMAccel.mlmodel in Sources */,
 				B67483DB1ACA2D6800A9970E /* AppDelegate.swift in Sources */,
+				5289D48D1FB659BB00D55DB0 /* CoreMLViewController.swift in Sources */,
 				B694B01A1FA377E4009A4277 /* RingBuffer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,11 +308,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 52823ULQN3;
+				DEVELOPMENT_TEAM = 59272Q867S;
 				INFOPLIST_FILE = HTTPSwiftExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = qewrcf;
+				PRODUCT_BUNDLE_IDENTIFIER = "SMU-MachineLearning";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};
@@ -310,11 +322,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 52823ULQN3;
+				DEVELOPMENT_TEAM = 59272Q867S;
 				INFOPLIST_FILE = HTTPSwiftExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = qewrcf;
+				PRODUCT_BUNDLE_IDENTIFIER = "SMU-MachineLearning";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};
